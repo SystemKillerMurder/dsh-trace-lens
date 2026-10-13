@@ -383,7 +383,7 @@ export function deriveTrace(input = EMPTY) {
     const ends = spans.map((span) => span.completed).filter((value) => value !== null)
     // A failed model call fails the turn; tool errors only raise a warning. Both outrank running.
     const failed = spans.filter((span) => span.status === 'error')
-    const toolErrorCount = failed.filter((span) => span.type === 'tool').length
+    const toolErrorCount = failed.filter((span) => span.type === 'tool' || span.type === 'delegation').length
     const errorCount = failed.length
     const generationErrorCount = errorCount - toolErrorCount
     const status = generationErrorCount > 0 ? 'error'

@@ -1142,7 +1142,7 @@ function deriveTrace(input = EMPTY) {
     const ends = spans.map((span) => span.completed).filter((value) => value !== null)
     // A failed model call fails the turn; tool errors only raise a warning. Both outrank running.
     const failed = spans.filter((span) => span.status === 'error')
-    const toolErrorCount = failed.filter((span) => span.type === 'tool').length
+    const toolErrorCount = failed.filter((span) => span.type === 'tool' || span.type === 'delegation').length
     const errorCount = failed.length
     const generationErrorCount = errorCount - toolErrorCount
     const status = generationErrorCount > 0 ? 'error'
@@ -1429,7 +1429,7 @@ function eventsToSnapshot(events) {
           timing: { stepStartTime: request?.startedAt ?? null, firstTokenTime: firstTokenTime(data.stream), completedTime: event.time },
         })
         locate(event.seq, data.turn)
-        if (request) Object.assign(request, { completedAt: event.time, status: 'complete', usage: data.usage, providerMetadata, resultSeq: event.seq })
+        if (request) Object.assign(request, { completedAt: event.time, status: 'complete', error: undefined, usage: data.usage, providerMetadata, resultSeq: event.seq })
         break
       }
       // 模型调用的一次尝试：失败时记录错误信息并累加重试次数。
