@@ -1,0 +1,77 @@
+{
+  "name": "dsh-trace-lens",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Langfuse-style trace view of DeepSeek Harness sessions, with an importer for offline session logs",
+  "license": "MIT",
+  "author": "lijiakun <lijiakun@payermax.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SystemKillerMurder/dsh-trace-lens.git"
+  },
+  "homepage": "https://github.com/SystemKillerMurder/dsh-trace-lens#readme",
+  "bugs": "https://github.com/SystemKillerMurder/dsh-trace-lens/issues",
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "trace",
+    "observability",
+    "langfuse"
+  ],
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./data-model": "./data-model.js",
+    "./session-import": "./session-import.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "build.mjs",
+    "data-model.js",
+    "session-import.js",
+    "view.js",
+    "import-view.js",
+    "steady-tabs.js",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-trajectory",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-client-ui-primitives": ">=0.1.5-rc.1",
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-client-ui-primitives": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "fzstd": "^0.1.1"
+  }
+}
