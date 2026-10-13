@@ -4,6 +4,8 @@ A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh) plug
 
 [中文说明](README.zh.md)
 
+![Trace view: the turn and model-call tree on the left, the selected GENERATION's input, output, and metadata on the right](docs/trace-view.png)
+
 ## Features
 
 - **Trace tab** in every session view. The left pane lists the trace, one SPAN per turn, a GENERATION per model call, and a TOOL per tool call, switchable between a tree and a timeline. The right pane shows the selected observation: status, latency, time to first token, provider and model, token usage, and formatted or raw JSON input, output, and metadata.

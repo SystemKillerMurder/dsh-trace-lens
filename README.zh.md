@@ -4,6 +4,8 @@
 
 [English](README.md)
 
+![Trace 视图：左侧为轮次与模型调用树，右侧为选中 GENERATION 的输入、输出和元数据](docs/trace-view.png)
+
 ## 功能
 
 - **Trace 标签**：出现在每个会话视图中。左侧列出整条 Trace，每轮一个 SPAN、每次模型调用一个 GENERATION、每次工具调用一个 TOOL，可在树和时间线之间切换。右侧显示选中观测的状态、延迟、首 token 时间、提供商和模型、Token 用量，以及格式化或原始 JSON 形式的输入、输出和元数据。

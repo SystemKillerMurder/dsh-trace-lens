@@ -115,6 +115,16 @@ test('marks turns with only failed tool calls as warning and any failed generati
   assert.equal(failed.generationErrorCount, 1)
 })
 
+test('counts failed delegated calls as tool errors, not generation errors', () => {
+  const nested = { kind: 'tool-result', seq: 50, callId: 'child', parentCallId: 'root', name: 'delegate', callTime: 210, time: 240, args: {}, call: { name: 'delegate', argsRaw: '{}' }, content: [], isError: true, subCalls: [] }
+  const root = { kind: 'tool-result', seq: 40, callId: 'root', name: 'agent', callTime: 200, time: 260, args: {}, call: { name: 'agent', argsRaw: '{}' }, content: [], isError: false, subCalls: [nested] }
+  const node = assistant(1, 1, 30, [toolCall('root', 'agent')], { stepStartTime: 190, completedTime: 200 })
+  const turn = deriveTrace(snapshot({ eventNodes: [node, root] })).turns[0]
+  assert.equal(turn.status, 'warning')
+  assert.equal(turn.toolErrorCount, 1)
+  assert.equal(turn.generationErrorCount, 0)
+})
+
 test('shows tool-call warnings on a turn that is still running', () => {
   const failedTool = { kind: 'tool-result', seq: 30, callId: 'c1', name: 'read', args: {}, call: { name: 'read', argsRaw: '{}' }, callTime: 120, time: 180, content: [], isError: true, subCalls: [] }
   const node = assistant(1, 1, 20, [toolCall('c1')], { stepStartTime: 100, completedTime: 120 })

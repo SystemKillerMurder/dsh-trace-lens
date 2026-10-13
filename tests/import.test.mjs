@@ -65,3 +65,17 @@ test('converts session events into a trace with prompt, timing, tools, and failu
   assert.equal(second.metadata.retry, 1)
   assert.equal(turn.status, 'error')
 })
+
+test('clears an earlier attempt error once the step succeeds but keeps the retry count', () => {
+  const recovered = [
+    ...events.slice(0, 13),
+    { type: 'assistant/message', seq: 13, time: 1200, data: { turn: 1, step: 2, message: { role: 'assistant', content: [{ type: 'text', text: 'ok' }], source: { kind: 'model', provider: 'p', model: 'm' } }, usage: {} } },
+    { type: 'turn/end', seq: 14, time: 1210, data: { turn: 1, reason: { kind: 'completed' } } },
+  ]
+  const [turn] = deriveTrace(eventsToSnapshot(recovered).snapshot).turns
+  const second = turn.spans.filter((span) => span.type === 'generation')[1]
+  assert.equal(second.status, 'complete')
+  assert.equal(second.error, null)
+  assert.equal(second.metadata.retry, 1)
+  assert.equal(turn.status, 'complete')
+})
