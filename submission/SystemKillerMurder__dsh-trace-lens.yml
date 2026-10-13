@@ -1,0 +1,6 @@
+url: https://github.com/SystemKillerMurder/dsh-trace-lens
+name: SystemKillerMurder/dsh-trace-lens
+category: session
+description:
+  en: Langfuse-style trace view of a session's turns, model calls, and tool calls, with an importer for offline session logs.
+  zh: 以 Langfuse 风格的 Trace 视图展示会话的轮次、模型调用和工具调用，并可导入离线 session 日志分析。
